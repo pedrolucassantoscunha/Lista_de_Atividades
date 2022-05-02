@@ -1,45 +1,76 @@
-function Submit(){
-    const valor = document.querySelector('[data-form-input]')
-    const lista = document.querySelector('[data-task]')
-    const novo_item_lista = document.createElement("li")
-    console.log(valor.value)
-
-    novo_item_lista.innerHTML = valor.value
-    lista.appendChild (novo_item_lista)
+function DeleteItem(){
+    console.log("Deletar")
+    this.parentElement.remove()
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-// function myFunction(){
-//     console.log("teste inicial");
-// }
-
-// function addItem(){
-//     const inputItem = document.querySelector('[data-form-input]')
-//     const valorItem = inputItem.value
-
-//     const listaDeItems = document.querySelector('[data-task]')
-
-//     novaLabel = document.createElement('label')
-//     novaLabel.innerText = valorItem
+function EditarItem(){
+    console.log("EditarItem")
+    item_lista = this.parentElement
+    texto_item_lista  = item_lista.innerText.replace("DeletarEditar", "")
     
-//     novoItem = document.createElement('li')
+    item_element = document.querySelector('[data-form-input]')
+    item_element.value = texto_item_lista
+    
+    const botao_submit = document.querySelector('[button-submit]')
+    botao_submit.className = 'd-none'
 
-//     // novoItem.appendChild(criarBotaoConcluir())
-//     novoItem.appendChild(novaLabel)
-//     // novoItem.appendChild(criarBotaoDelete())
+    const botao_edit = document.querySelector('[button-edit]')
+    botao_edit.classList.remove('d-none')
 
-//     listaDeItems.appendChild(novoItem)
+}
 
-//     inputItem.value = ""
-//}
+function CriarBotaoEditar(){
+    const botao_editar =  document.createElement('button')
+    botao_editar.classList.add("btn", "btn-info")
+    botao_editar.innerHTML = "Editar"
+    botao_editar.type = "button"
+    botao_editar.addEventListener("click", EditarItem);
+
+    return botao_editar
+}
+
+function CriarBotaoDelete(){
+    const botao_delete =  document.createElement('button')
+    botao_delete.classList.add("btn", "btn-danger")
+    botao_delete.innerHTML = "Deletar"
+    botao_delete.type = "button"
+    botao_delete.addEventListener("click", DeleteItem);
+
+    return botao_delete
+}
+
+function Submit(){
+    const lista = document.querySelector('[data-task]')
+    const valor = document.querySelector('[data-form-input]')
+
+    const novo_item_lista = document.createElement("li")
+    novo_item_lista.className = "list-group-item";
+
+    novo_item_lista.innerHTML = valor.value
+ 
+    novo_item_lista.appendChild(CriarBotaoDelete())
+    novo_item_lista.appendChild(CriarBotaoEditar())
+    lista.appendChild (novo_item_lista)
+
+    document.getElementById("item").value = ""
+}
+
+function Editar(){
+    console.log("Editar")
+    
+    texto_add = item_element.value
+    item_lista.innerHTML = texto_add
+
+    item_lista.appendChild(CriarBotaoDelete())
+    item_lista.appendChild(CriarBotaoEditar())
+
+    const botao_submit = document.querySelector('[button-submit]')
+    botao_submit.classList.remove('d-none')
+    botao_submit.classList.add('btn', 'btn-dark')
+
+    const botao_edit = document.querySelector('[button-edit]')
+    botao_edit.classList.add('d-none')
+
+    item_element.value = '';
+
+}
